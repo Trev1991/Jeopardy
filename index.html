@@ -1,17 +1,91 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeopardy Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jeopardy / Trivia – Springboard Edition</title>
+  <meta name="description" content="Trivia game using Open Trivia DB with score, categories, difficulty, and accessibility." />
+  <link rel="preconnect" href="https://opentdb.com">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <div id="game-board">
-        <!-- Jeopardy categories and questions will go here -->
-    </div>
-    <script src="script.js"></script>
-</body>
+  <header class="site-header">
+    <h1>Jeopardy / Trivia</h1>
+    <p class="sub">Open Trivia DB • No dependencies • Accessible</p>
+  </header>
 
+  <main id="app" class="container">
+    <!-- Setup / Controls -->
+    <section class="panel" aria-labelledby="setup-heading">
+      <h2 id="setup-heading">Game Setup</h2>
+      <div class="controls">
+        <label>
+          Category
+          <select id="categorySelect" aria-label="Category">
+            <option value="">Any Category</option>
+          </select>
+        </label>
+        <label>
+          Difficulty
+          <select id="difficultySelect" aria-label="Difficulty">
+            <option value="">Any</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </label>
+        <label>
+          Questions
+          <select id="amountSelect" aria-label="Number of questions">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </label>
+        <button id="startBtn" class="btn primary">Start Game</button>
+      </div>
+      <p class="hint">Tip: If the API rate-limits or returns no questions for a narrow category/difficulty, try "Any".</p>
+    </section>
+
+    <!-- HUD -->
+    <section class="hud" aria-live="polite">
+      <div>Question: <span id="qIndex">0</span>/<span id="qTotal">0</span></div>
+      <div>Score: <span id="score">0</span></div>
+      <div>High score: <span id="highScore">0</span></div>
+    </section>
+
+    <!-- Game Board -->
+    <section id="game" class="panel" aria-labelledby="questionLabel">
+      <h2 id="questionLabel" class="sr-only">Question</h2>
+      <div id="loader" class="loader" hidden>Loading…</div>
+      <div id="errorBox" class="error" hidden role="alert"></div>
+
+      <div id="questionBox" class="question" aria-live="polite"></div>
+
+      <div id="choices" class="choices" role="radiogroup" aria-labelledby="questionLabel"></div>
+
+      <div class="actions">
+        <button id="submitBtn" class="btn" type="button" disabled>Submit</button>
+        <button id="nextBtn" class="btn" type="button" disabled>Next</button>
+        <button id="resetBtn" class="btn ghost" type="button">Reset</button>
+      </div>
+
+      <div id="status" class="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="panel" hidden aria-labelledby="resultsHeading">
+      <h2 id="resultsHeading">Results</h2>
+      <p id="resultsSummary"></p>
+      <button id="playAgainBtn" class="btn primary">Play Again</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>If you see a blank page on GitHub Pages, hard refresh and check the Console for missing files.</small>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
 </html>
